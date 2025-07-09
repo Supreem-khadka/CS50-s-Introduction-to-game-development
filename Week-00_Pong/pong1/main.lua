@@ -3,7 +3,7 @@
     Implementation of pong with low resolution to give it a retro feel
 --]]
 
-push = require 'push'       -- using the push library
+push = require 'push'       -- using the push libraryn
 
 WINDOW_HEIGHT = 720
 WINDOW_WIDTH = 1280
