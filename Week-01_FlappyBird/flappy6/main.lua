@@ -40,6 +40,8 @@ local spawnTimer = 0
 -- initialize the last recorded Y value for a gap to base other gaps off of
 local lastY = -PIPE_HEIGHT + math.random(80) + 20
 
+-- variable to set the scrolling on and off
+local scrolling = true
 function love.load()
     love.graphics.setDefaultFilter("nearest", "nearest")
 
@@ -78,35 +80,44 @@ end
 
 
 function love.update(dt)
-    -- parallax scrolling
-    background_scroll = (background_scroll + BACKGROUND_SCROLL_SPEED * dt) % 412
-    ground_scroll = (ground_scroll + GROUND_SCROLL_SPEED * dt) % VIRTUAL_WIDTH 
+    if scrolling then
+        -- parallax scrolling
+        background_scroll = (background_scroll + BACKGROUND_SCROLL_SPEED * dt) % 412
+        ground_scroll = (ground_scroll + GROUND_SCROLL_SPEED * dt) % VIRTUAL_WIDTH 
 
-    spawnTimer = spawnTimer + dt
-    -- create a new pipe pair if the timer is past 2 seconds
-    if spawnTimer > 2 then
-        local y = math.max(-PIPE_HEIGHT + 10, 
-            math.min(lastY + math.random(-20, 20), VIRTUAL_HEIGHT - 90 - PIPE_HEIGHT))
-        lastY = y
-        table.insert(pipePairs, PipePair(y))
-        spawnTimer = 0
-    end
+        spawnTimer = spawnTimer + dt
+        -- create a new pipe pair if the timer is past 2 seconds
+        if spawnTimer > 2 then
+            local y = math.max(-PIPE_HEIGHT + 10, 
+                math.min(lastY + math.random(-20, 20), VIRTUAL_HEIGHT - 90 - PIPE_HEIGHT))
+            lastY = y
+            table.insert(pipePairs, PipePair(y))
+            spawnTimer = 0
+        end
 
 
-    -- bird:update(dt)
-    bird:update(dt)
+        -- bird:update(dt)
+        bird:update(dt)
 
-    for k, pair in pairs(pipePairs) do 
-        pair:update(dt)
-    end
+        for k, pair in pairs(pipePairs) do 
+            pair:update(dt)
 
-    -- remove the remove flaged pipes
-    for k, pair in pairs(pipePairs) do
-        if pair.remove then
-            table.remove(pipePairs, k)
+            for l, pipe in pairs(pair.pipes) do
+                if bird:collides(pipe) then
+                    scrolling = false
+                end
+            end
+            
+        end
+
+        -- remove the remove flaged pipes
+        for k, pair in pairs(pipePairs) do
+            if pair.remove then
+                table.remove(pipePairs, k)
+            end
         end
     end
-    
+
     love.keyboard.keysPressed = {}
 
 end
