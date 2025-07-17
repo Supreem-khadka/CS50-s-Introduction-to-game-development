@@ -1,13 +1,9 @@
 --[[
     Author -> Supreem Khadka
-    Flappy Bird 2 Ball Update
+    Flappy Bird 1 Parallax Update
 --]]
 
 push = require 'push'
-
-Class = require 'class'
-
-require 'Bird'
 
 WINDOW_WIDTH = 1280
 WINDOW_HEIGHT = 720
@@ -17,7 +13,7 @@ VIRTUAL_HEIGHT = 288
 
 local images = {
     ["background"] = love.graphics.newImage("background.png"),
-    ["ground"] = love.graphics.newImage("ground.png"),
+    ["ground"] = love.graphics.newImage("ground.png")
 }
 
 backgroundScroll = 0
@@ -26,7 +22,6 @@ groundScroll = 0
 BACKGROUND_SCROLL_SPEED = 30
 GROUND_SCROLL_SPEED = 60
 
-local flappy = Bird()
 
 function love.load()
     --love.graphics.setDefaultFilter("nearest", "nearest")
@@ -60,10 +55,8 @@ end
 
 function love.draw()
     push:start()
-
     love.graphics.draw(images["background"], -backgroundScroll, 0)
     love.graphics.draw(images["ground"], -groundScroll, VIRTUAL_HEIGHT - 16)
-    flappy:render()
-
+    love.graphics.print(tostring(images["background"]:getWidth()), 0, 0)
     push:finish()
 end

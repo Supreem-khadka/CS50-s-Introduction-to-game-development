@@ -1,6 +1,6 @@
 PipePair = Class{}
 
-local GAP_HEIGHT = 90
+local GAP_HEIGHT = 150
 
 function PipePair:init(y)
     -- place the pipe after the end of the screen
@@ -15,6 +15,8 @@ function PipePair:init(y)
     }
 
     self.remove = false
+
+    self.scored = false
 end
 
 

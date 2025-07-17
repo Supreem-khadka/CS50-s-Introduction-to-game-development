@@ -1,6 +1,6 @@
 --[[
     Author -> Supreem Khadka
-    Flappy Bird 0 Implementation
+    Flappy Bird 1 Parallax Update
 --]]
 
 push = require 'push'

@@ -14,7 +14,7 @@ function CountdownState:update(dt)
         timer = 0
     end
 
-    if self.time < 0 then
+    if self.time < 1 then
         gStateMachine:change("play")
     end
 end
